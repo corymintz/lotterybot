@@ -1,0 +1,13 @@
+[Unit]
+Description=Lottery Bot
+Documentation=https://github.com/corymintz/lotterybot
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/node /opt/lotteryopt/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
