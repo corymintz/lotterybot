@@ -4,9 +4,11 @@ Documentation=https://github.com/corymintz/lotterybot
 After=network.target
 
 [Service]
+EnvironmentFile=/opt/lotterybot/.env
+WorkingDirectory=/opt/lotterybot
 Type=simple
-User=ubuntu
-ExecStart=/usr/bin/node /opt/lotteryopt/index.js
+User=root
+ExecStart=/bin/node /opt/lotterybot/index.js
 Restart=on-failure
 
 [Install]
