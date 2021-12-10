@@ -9,7 +9,7 @@ module.exports = {
       // be enhanced to per Discord channel, per server.
       const existingLottery = await collection.findOne({guildId: interaction.guildId, rolledDate:null});
       if (!existingLottery) {
-        interaction.reply({ content: `No lottery is in progress to close.`});
+        interaction.reply({ content: `No lottery is in progress to enter.`});
         return;
       }
 
@@ -25,7 +25,7 @@ module.exports = {
         _id: existingLottery._id
       };
       const update = {
-        $push: {
+        $addToSet: {
           entrants: username
         }
       };
