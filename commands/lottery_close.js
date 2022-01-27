@@ -35,13 +35,17 @@ module.exports = {
     data: new SlashCommandBuilder()
       .setName('lottery_close')
       .setDescription('Close an open lottery and roll the results'),
-    async execute(interaction, collection) {
+    async execute(interaction, client) {
+
+        const database = client.db('lotterybot');
+        const lotteries = database.collection('lotteries');
+
         if(!interaction.member.roles.cache.some(role => role.name === 'Lottery Moderator')) {
           interaction.reply({ content: `Can not start a new lottery without the Lottery Moderator role.`});
           return;
         }
 
-        const existingLottery = await collection.findOne({guildId: interaction.guildId, rolledDate:null});
+        const existingLottery = await lotteries.findOne({guildId: interaction.guildId, rolledDate:null});
         if (!existingLottery) {
            interaction.reply({ content: `No lottery is in progress to close.`});
           return;
@@ -64,9 +68,9 @@ module.exports = {
           return;
         }
 
-        await collection.updateOne(filter, update);
+        await lotteries.updateOne(filter, update);
 
-        const finalLottery = await collection.findOne(filter);
+        const finalLottery = await lotteries.findOne(filter);
         const message = generateMessageLotteryResult(finalLottery);
 
         interaction.reply({ embeds: [message] });

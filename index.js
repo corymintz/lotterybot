@@ -25,9 +25,6 @@ async function run() {
   const client = new MongoClient(process.env.DB_CONNECTION_STRING);
   await client.connect();
 
-  const database = client.db('lotterybot');
-  const lotteries = database.collection('lotteries');
-
   bot.on('ready', () => {
     console.info(`Logged in as ${bot.user.tag}!`);
   });
@@ -51,7 +48,7 @@ async function run() {
 
     try {
         console.log(`Executing command ${interaction.commandName}`);
-        await command.execute(interaction, lotteries);
+        await command.execute(interaction, client);
     } catch (error) {
         if (error) {
           console.error(error);
