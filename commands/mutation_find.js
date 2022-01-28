@@ -29,7 +29,7 @@ function generateMessageFindResult(role, minLevel, players) {
     } else {
       infoString += `(Unregistered)`;
     }
-    if (player.levelUnlocked) {
+    if (player.levelUnlocked || player.levelUnlocked === 0) {
       infoString += `/${player.levelUnlocked}`;
     }
     infoString += `\n`;
@@ -76,7 +76,7 @@ module.exports = {
         filter['roles'] = role;
       }
 
-      if (minLevel) {
+      if (minLevel || minLevel === 0) {
         filter['levelUnlocked'] = {$gte : minLevel};
       }
 
